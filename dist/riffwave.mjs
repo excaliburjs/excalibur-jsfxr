@@ -60,7 +60,7 @@ var RIFFWAVE;
 export default RIFFWAVE = function (data) {
   this.data;
   this.wav;
-  dataURI;
+  this.dataURI;
 
   this.data = []; // Array containing audio samples
   this.wav = []; // Array containing the generated wave file
