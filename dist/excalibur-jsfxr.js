@@ -1,4 +1,4 @@
-export default class JsfxrResource {
+export class JsfxrResource {
     sounds = {};
     jsfxrModule;
     jsfxr;

@@ -28,7 +28,7 @@ export type SoundConfig = {
   sample_size: number;
 };
 
-export default class JsfxrResource {
+export class JsfxrResource {
   sounds: { [key: string]: SoundConfig } = {};
   jsfxrModule: any;
   jsfxr: any;
