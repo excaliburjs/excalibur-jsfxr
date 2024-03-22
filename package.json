@@ -1,0 +1,44 @@
+{
+  "name": "@excaliburjs/excalibur-jsfxr",
+  "version": "1.0.0",
+  "description": "excalibur-jsfxr provides sound effect generation utilitzing a wrapper around jsfxr",
+  "main": "dist/excalibur-jsfxr.min.js",
+  "types": "dist/excalibur-jsfxr.d.ts",
+  "scripts": {
+    "build": "tsc && npm run minify ",
+    "minify": "uglifyjs dist/excalibur-jsfxr.js -c -m -o dist/excalibur-jsfxr.min.js"
+  },
+  "author": {
+    "name": "Excalibur.js Team",
+    "email": "excaliburjs@gmail.com",
+    "url": "http://excaliburjs.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/excaliburjs/excalibur-jsfxr.git"
+  },
+  "license": "BSD-2-Clause",
+  "keywords": [
+    "excalibur",
+    "game",
+    "engine",
+    "sfx",
+    "jsfxr",
+    "sound",
+    "audio"
+  ],
+  "bugs": {
+    "url": "https://github.com/excaliburjs/excalibur-jsfxr/issues"
+  },
+  "homepage": "https://github.com/excaliburjs/excalibur-jsfxr#readme",
+  "dependencies": {
+    "uglify-js": "^3.17.4",
+    "vite": "^5.2.2"
+  },
+  "devDependencies": {
+    "excalibur": "^0.29.1"
+  },
+  "peerDependencies": {
+    "excalibur": "^0.29.1"
+  }
+}
