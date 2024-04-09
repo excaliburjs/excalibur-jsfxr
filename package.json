@@ -1,6 +1,6 @@
 {
   "name": "@excaliburjs/plugin-jsfxr",
-  "version": "0.29.0-alpha.1",
+  "version": "0.29.1",
   "description": "excalibur-jsfxr provides sound effect generation utilizing a wrapper around jsfxr",
   "main": "dist/excalibur-jsfxr.min.js",
   "types": "dist/excalibur-jsfxr.d.ts",
@@ -31,12 +31,10 @@
     "url": "https://github.com/excaliburjs/excalibur-jsfxr/issues"
   },
   "homepage": "https://github.com/excaliburjs/excalibur-jsfxr#readme",
-  "dependencies": {
+  "devDependencies": {
+    "excalibur": "^0.29.1",
     "uglify-js": "^3.17.4",
     "vite": "^5.2.2"
-  },
-  "devDependencies": {
-    "excalibur": "^0.29.1"
   },
   "peerDependencies": {
     "excalibur": "^0.29.1"
