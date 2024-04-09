@@ -60,7 +60,7 @@ In the API:
 To import the plug-in, from your shell:
 
 ```sh
-npm i @excalibur/plugin-jsfxr
+npm i @excaliburjs/plugin-jsfxr
 ```
 
 Declare and instantiate the new module and initialize
