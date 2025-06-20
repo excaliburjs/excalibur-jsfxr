@@ -21,7 +21,12 @@
   <ol>
     <li><a href="#about-the-plug-in">About The Plug-In</a></li>
     <li><a href="#getting-started">Getting Started</a></li>
-    <li><a href="#sound-configs">Sound Configs</a></li>
+    <li><a href="#sound-configs">Sound Configs</a>
+      <ul>
+        <li><a href="#basic-sound-configs">Basic Sound Configs</a></li>
+        <li><a href="#randomized-sound-configs">Randomized Sound Configs</a></li>
+      </ul>
+    </li>
     <li><a href="#playing-sounds">Playing Sounds</a>
       <ul>
         <li><a href="#playing-a-stored-sound">Playing a stored sound</a></li>
@@ -49,6 +54,7 @@ In the API:
 - initialization of JSFXR
 - Ability to store a dictionary(Records) of sound configurations
 - Ability to directly play a configuration through the library
+- Support for randomized sound parameters using value ranges
 - the ability to download the sounds directly as a collection of key/value pairs
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -80,10 +86,16 @@ for (const sound in sounds) {
 
 ## Sound Configs
 
+Sound configurations can now be defined with either fixed values or randomized ranges. This allows for more variety in your sound
+effects!
+
+### Basic Sound Configs
+
 As you may notice, we are loading sound configurations from sounds.ts in the example above. Let's take a quick look at an example from
-sounds.ts
+sounds.ts using fixed values:
 
 ```ts
+// sounds.ts
 import { SoundConfig } from "@excaliburjs/plugin-jsfxr";
 export const sounds: { [key: string]: SoundConfig } = {};
 
@@ -118,6 +130,46 @@ sounds["pickup"] = {
 };
 ```
 
+### Randomized Sound Configs
+
+You can now specify ranges for any parameter to add variation to your sounds. Each time the sound is played, a random value within the
+specified range will be used:
+
+```ts
+sounds["randomLaser"] = {
+  oldParams: true,
+  wave_type: 0,
+  p_env_attack: 0,
+  p_env_sustain: { min: 0.1, max: 0.3 },
+  p_env_punch: { min: 0.3, max: 0.7 },
+  p_env_decay: 0.5,
+  p_base_freq: { min: 0.5, max: 0.9 },
+  p_freq_limit: 0,
+  p_freq_ramp: { min: -0.3, max: -0.1 },
+  p_freq_dramp: 0,
+  p_vib_strength: 0,
+  p_vib_speed: 0,
+  p_arp_mod: 0,
+  p_arp_speed: 0,
+  p_duty: 0,
+  p_duty_ramp: 0,
+  p_repeat_speed: 0,
+  p_pha_offset: 0,
+  p_pha_ramp: 0,
+  p_lpf_freq: 1,
+  p_lpf_ramp: 0,
+  p_lpf_resonance: 0,
+  p_hpf_freq: 0,
+  p_hpf_ramp: 0,
+  sound_vol: { min: 0.2, max: 0.4 },
+  sample_rate: 44100,
+  sample_size: 16,
+};
+```
+
+In this example, each time "randomLaser" is played, it will have slight variations in sustain, punch, base frequency, frequency ramp,
+and volume, creating a more dynamic sound experience.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Playing Sounds
@@ -131,6 +183,8 @@ After you've stored your configs in the plugin, you can call the name of the con
 ```ts
 sndPlugin.playSound("laser");
 ```
+
+When playing sounds with randomized parameters, each call will generate a unique variation based on the defined ranges.
 
 ### Playing an ad hoc configuration
 
@@ -172,6 +226,24 @@ const tempSound: SoundConfig = {
 sndPlugin.playConfig(tempSound);
 ```
 
+You can also use ranges in ad hoc configurations:
+
+```ts
+const randomizedSound: SoundConfig = {
+  oldParams: true,
+  wave_type: 0,
+  p_env_attack: 0,
+  p_env_sustain: { min: 0.1, max: 0.5 },
+  p_base_freq: { min: 0.3, max: 0.8 },
+  // ... other parameters
+  sound_vol: { min: 0.2, max: 0.6 },
+  sample_rate: 44100,
+  sample_size: 16,
+};
+
+sndPlugin.playConfig(randomizedSound);
+```
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Making a new sound
@@ -195,39 +267,56 @@ download your sounds.ts file prewritten for you!
 
 ### Types
 
+JSFXValueRange
+
+```ts
+type JSFXValueRange = {
+  min: number;
+  max: number;
+};
+```
+
+JSFXvalue
+
+```ts
+type JSFXvalue = number | JSFXValueRange;
+```
+
 SoundConfig
 
 ```ts
 export type SoundConfig = {
   oldParams: boolean;
-  wave_type: number;
-  p_env_attack: number;
-  p_env_sustain: number;
-  p_env_punch: number;
-  p_env_decay: number;
-  p_base_freq: number;
-  p_freq_limit: number;
-  p_freq_ramp: number;
-  p_freq_dramp: number;
-  p_vib_strength: number;
-  p_vib_speed: number;
-  p_arp_mod: number;
-  p_arp_speed: number;
-  p_duty: number;
-  p_duty_ramp: number;
-  p_repeat_speed: number;
-  p_pha_offset: number;
-  p_pha_ramp: number;
-  p_lpf_freq: number;
-  p_lpf_ramp: number;
-  p_lpf_resonance: number;
-  p_hpf_freq: number;
-  p_hpf_ramp: number;
-  sound_vol: number;
-  sample_rate: number;
-  sample_size: number;
+  wave_type: JSFXvalue;
+  p_env_attack: JSFXvalue;
+  p_env_sustain: JSFXvalue;
+  p_env_punch: JSFXvalue;
+  p_env_decay: JSFXvalue;
+  p_base_freq: JSFXvalue;
+  p_freq_limit: JSFXvalue;
+  p_freq_ramp: JSFXvalue;
+  p_freq_dramp: JSFXvalue;
+  p_vib_strength: JSFXvalue;
+  p_vib_speed: JSFXvalue;
+  p_arp_mod: JSFXvalue;
+  p_arp_speed: JSFXvalue;
+  p_duty: JSFXvalue;
+  p_duty_ramp: JSFXvalue;
+  p_repeat_speed: JSFXvalue;
+  p_pha_offset: JSFXvalue;
+  p_pha_ramp: JSFXvalue;
+  p_lpf_freq: JSFXvalue;
+  p_lpf_ramp: JSFXvalue;
+  p_lpf_resonance: JSFXvalue;
+  p_hpf_freq: JSFXvalue;
+  p_hpf_ramp: JSFXvalue;
+  sound_vol: JSFXvalue;
+  sample_rate: JSFXvalue;
+  sample_size: JSFXvalue;
 };
 ```
+
+All SoundConfig properties now accept either a fixed number value or a JSFXValueRange object with min/max properties for randomization.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -255,7 +344,7 @@ These methods return a set of key/valuepairs representing all the sound config k
 
 Justin Young - [@jyoung424242 (Twitter)](https://twitter.com/your_username) - [Mookie4242 (itch.io)](https://mookie4242.itch.io/)
 
-Project Link: [GitHub Repo: Excalibur-Graph](https://github.com/excaliburjs/excalibur-graph)
+Project Link: [GitHub Repo: Excalibur-JSFXR](https://github.com/excaliburjs/excalibur-jsfxr)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
