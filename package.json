@@ -13,10 +13,6 @@
     "email": "excaliburjs@gmail.com",
     "url": "http://excaliburjs.com"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/excaliburjs/excalibur-jsfxr.git"
-  },
   "license": "BSD-2-Clause",
   "keywords": [
     "excalibur",
