@@ -1,6 +1,6 @@
 {
   "name": "@excaliburjs/plugin-jsfxr",
-  "version": "0.31.0",
+  "version": "0.32.0",
   "description": "excalibur-jsfxr provides sound effect generation utilizing a wrapper around jsfxr",
   "repository": {
     "type": "git",
@@ -33,11 +33,11 @@
   "homepage": "https://github.com/excaliburjs/excalibur-jsfxr#readme",
   "devDependencies": {
     "copyfiles": "2.4.1",
-    "excalibur": "^0.31.0",
+    "excalibur": "~0.32.0",
     "uglify-js": "^3.19.3",
     "vite": "^6.0.3"
   },
   "peerDependencies": {
-    "excalibur": "^0.31.0"
+    "excalibur": "~0.32.0"
   }
 }
