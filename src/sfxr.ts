@@ -1,5 +1,5 @@
-//import riffwave
-import RIFFWAVE from "./riffwave.mjs";
+// @ts-nocheck
+import RIFFWAVE from "./riffwave";
 
 // Wave shapes
 var SQUARE = 0;
@@ -488,8 +488,8 @@ Params.prototype.mutate = function () {
 };
 
 /*** Simpler namespaced functional API ***/
-var sfxr;
-export default sfxr = {};
+var sfxr: any = {};
+export default sfxr;
 
 sfxr.toBuffer = function (synthdef) {
   return new SoundEffect(synthdef).getRawBuffer()["buffer"];
@@ -1321,50 +1321,3 @@ var units = {
     return sign + v.toPrecision(4) + " dB";
   },
 };
-
-/*** Plumbing ***/
-
-/* (function (root, factory) {
-  if (typeof define === "function" && define.amd) {
-    // Now we're wrapping the factory and assigning the return
-    // value to the root (window) and returning it as well to
-    // the AMD loader.
-    /*  define(["./riffwave"], function (RIFFWAVE) {
-      return (root.jsfxr = factory(RIFFWAVE));
-    }); 
-  } else if (typeof module === "object" && module.exports) {
-    // I've not encountered a need for this yet, since I haven't
-    // run into a scenario where plain modules depend on CommonJS
-    // *and* I happen to be loading in a CJS browser environment
-    // but I'm including it for the sake of being thorough
-    //RIFFWAVE = require("./riffwave.mjs");
-    module.exports = root.jsfxr = factory(RIFFWAVE);
-  }  else {
-    root.jsfxr = factory(root.RIFFWAVE);
-  } 
-})(this, function (RIFFWAVE) {
-  // module code here....
-  return {
-    sfxr: sfxr,
-    convert: {
-      sliders: sliders,
-      domain: domain,
-      sliders_inverse: sliders_inverse,
-      domain_inverse: domain_inverse,
-      units: units,
-    },
-    parameters: {
-      order: params_order,
-      signed: params_signed,
-    },
-    Params: Params,
-    SoundEffect: SoundEffect,
-    waveforms: {
-      SQUARE: SQUARE,
-      SAWTOOTH: SAWTOOTH,
-      SINE: SINE,
-      NOISE: NOISE,
-    },
-  };
-});
- */
