@@ -1,0 +1,52 @@
+# Build + snapshot e2e for @excaliburjs/plugin-jsfxr.
+# Linux-only: the golden masters in test/e2e/jsfxr.spec.ts-snapshots are recorded as
+# *-chromium-linux.png, and Chromium's text/GL rendering differs enough on other platforms
+# that they would not compare cleanly.
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_call:
+
+jobs:
+  build:
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          submodules: true
+          fetch-depth: 100
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          registry-url: 'https://registry.npmjs.org'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run typecheck
+
+      - name: Install e2e system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb fonts-liberation fonts-noto-core
+      - run: npx playwright install --with-deps chromium
+
+      # xvfb + swiftshader (see playwright.config.ts launchOptions) is what makes the
+      # screenshots reproduce against the recorded baselines.
+      - name: Run e2e snapshot suite
+        run: >
+          xvfb-run --auto-servernum
+          --server-args="-screen 0 1920x1080x24 -ac +extension GLX +render -noreset"
+          npx playwright test
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

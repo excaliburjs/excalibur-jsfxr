@@ -1,3 +1,5 @@
+import { Random } from "excalibur";
+import jsfxr from "./sfxr"
 type JSFXValueRange = {
   min: number;
   max: number;
@@ -35,39 +37,48 @@ export type SoundConfig = {
   sample_size: JSFXvalue;
 };
 
-type SoundConfigKeys = keyof SoundConfig;
+export type SynthDef = Partial<Record<keyof SoundConfig, number>>
+export type Wave = unknown & { _brand: "WaveHandle" }; 
+export type SoundAlgorithm = any; 
+
+export interface Jsfxr {
+  toBuffer(): number[];
+  toWebAudio(synthdef: SynthDef, audiocontext: AudioContext): AudioBufferSourceNode;
+  toWave(synthdef: SynthDef): Wave;
+  toAudio(synthdef: SynthDef): {
+    play: () => void;
+    setVolume: (n: number) => void;
+    channels: AudioBufferSourceNode[];
+  }; 
+  play(synthdef: SynthDef): void;
+  b58decode(b58encoded: string): SynthDef;
+  b58encode(synthdef: SynthDef): string;
+  generate(algorithm: SoundAlgorithm, options: any): any;
+}
 
 export class JsfxrResource {
   sounds: { [key: string]: SoundConfig } = {};
-  jsfxrModule: any;
-  jsfxr: any;
-
-  async init() {
-    // @ts-ignore
-    this.jsfxrModule = await import("./sfxr.mjs");
-    this.jsfxr = this.jsfxrModule.default;
-  }
+  jsfxr: Jsfxr = jsfxr;
 
   loadSoundConfig(name: string, config: SoundConfig) {
     this.sounds[name] = config;
   }
 
-  rangeValue(min: number, max: number) {
-    return Math.random() * (max - min) + min;
+  rangeValue(min: number, max: number, random?: Random): number {
+    const zeroToOne = random ? random.next() : Math.random();
+    return zeroToOne * (max - min) + min;
   }
 
-  deleteSoundConfig(name: string) {
+  deleteSoundConfig(name: string): void {
     delete this.sounds[name];
   }
-  playConfig(config: SoundConfig) {
-    if (this.jsfxr === undefined) return;
-    if (this.jsfxrModule === undefined) return;
-    const resolvedConfig = this.resolveValues(config);
-    const a = this.jsfxr.toAudio(resolvedConfig);
+  playConfig(config: SoundConfig, random?: Random): void {
+    const resolvedConfig = this.resolveValues(config, random);
+    const a = jsfxr.toAudio(resolvedConfig);
     a.play();
   }
 
-  resolveValues(config: SoundConfig) {
+  resolveValues(config: SoundConfig, random?: Random): Partial<Record<keyof SoundConfig, number>>  {
     const newConfig: Partial<Record<keyof SoundConfig, number>> = {};
 
     for (const key in config) {
@@ -81,24 +92,21 @@ export class JsfxrResource {
         const min = value.min;
         const max = value.max;
 
-        newConfig[key as keyof SoundConfig] = this.rangeValue(min, max);
-        console.log("set ", key, " to ", newConfig[key as keyof SoundConfig], " from ", min, " to ", max);
+        newConfig[key as keyof SoundConfig] = this.rangeValue(min, max, random);
       }
     }
 
     return newConfig;
   }
 
-  playSound(name: string) {
-    if (this.jsfxr === undefined) return;
-    if (this.jsfxrModule === undefined) return;
+  playSound(name: string, random?: Random) {
 
     const config = this.sounds[name];
     if (!config) {
       throw new Error(`Sound ${name} not found`);
     }
 
-    const resolvedConfig = this.resolveValues(config);
+    const resolvedConfig = this.resolveValues(config, random);
     const a = this.jsfxr.toAudio(resolvedConfig);
     a.play();
   }

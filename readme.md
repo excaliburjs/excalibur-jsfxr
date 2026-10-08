@@ -35,6 +35,7 @@
     </li>
     <li><a href="#making-a-new-sound">Making a new sound</a></li>
     <li><a href="#types">Types</a></li>
+    <li><a href="#examples-and-tests">Examples and tests</a></li>
     <li><a href="#utility-methods">Utility Methods</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -76,7 +77,6 @@ import { JsfxrResource, SoundConfig } from "@excaliburjs/plugin-jsfxr";
 import { sounds } from "./sounds";
 
 let sndPlugin = new JsfxrResource();
-sndPlugin.init(); //initializes the JSFXR library
 for (const sound in sounds) {
   sndPlugin.loadSoundConfig(sound, sounds[sound]);
 }
@@ -337,6 +337,34 @@ This method clears out the the particular element from the sound configs stored
 ```
 
 These methods return a set of key/valuepairs representing all the sound config keys, paired with a SoundConfig object
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## Examples and tests
+
+Two example pages live under `example/` and are served straight from source by vite:
+
+```sh
+npm start        # http://localhost:5173 - waveform and playback pages
+```
+
+- **waveform** plots the PCM the plugin generates (`resolveValues()` -> `sfxr.toWave()`), with
+  the sample count, clip count and an FNV digest of the samples printed under each plot.
+- **playback** drives `playSound()` from on-screen buttons and reports what actually reached
+  the WebAudio graph, including the error path for a sound that was never loaded.
+
+Those pages back a Playwright snapshot suite:
+
+```sh
+npm run test:e2e           # run against the recorded golden masters
+npm run test:e2e:update    # re-record them
+npm test                   # typecheck + e2e
+```
+
+Each page also publishes a machine-readable `window.__jsfxrReport`, and the suite compares it
+against golden values in `test/e2e/manifest.ts` - that comparison, not the screenshot's
+pixel-diff, is what actually pins the generated audio. Set `EX_E2E_PORT` to move the dev
+server off its default port.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
