@@ -53,9 +53,8 @@
     "@playwright/test": "1.63.0",
     "@types/node": "^24.10.1",
     "copyfiles": "2.4.1",
-    "excalibur": "0.33.0-alpha.274",
-    "typescript": "5.9.3",
-    "uglify-js": "^3.19.3",
+    "excalibur": "0.33.0-alpha.247",
+    "typescript": "7.0.2",
     "vite": "8.1.4"
   },
   "peerDependencies": {
