@@ -38,7 +38,7 @@ export type SoundConfig = {
 };
 
 export type SynthDef = Partial<Record<keyof SoundConfig, number>>
-export type Wave = unknown & { _brand: "WaveHandle" }; 
+export type Wave = any; 
 export type SoundAlgorithm = any; 
 
 export interface Jsfxr {
