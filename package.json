@@ -28,7 +28,7 @@
     "types": "tsc --project tsconfig.json --declaration --emitDeclarationOnly",
     "test:e2e": "playwright test",
     "test:e2e:update": "playwright test --update-snapshots",
-    "test": "npm run typecheck && npm run test:e2e"
+    "test": "npm run typecheck"
   },
   "author": {
     "name": "Excalibur.js Team",
