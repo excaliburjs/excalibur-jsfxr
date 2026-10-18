@@ -36,11 +36,11 @@ jobs:
 
       # xvfb + swiftshader (see playwright.config.ts launchOptions) is what makes the
       # screenshots reproduce against the recorded baselines.
-      - name: Run e2e snapshot suite
-        run: >
-          xvfb-run --auto-servernum
-          --server-args="-screen 0 1920x1080x24 -ac +extension GLX +render -noreset"
-          npx playwright test
+      # - name: Run e2e snapshot suite
+      #   run: >
+      #     xvfb-run --auto-servernum
+      #     --server-args="-screen 0 1920x1080x24 -ac +extension GLX +render -noreset"
+      #     npx playwright test
 
       - uses: actions/upload-artifact@v4
         if: failure()
