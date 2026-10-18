@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "useDefineForClassFields": true,
     "lib": ["ESNext", "DOM"],
-    "outDir": "./dist/",
+    "outDir": "./build/esm/",
+    "rootDir": "./src/",
     "sourceRoot": "./src/",
     "sourceMap": true,
     "noImplicitAny": true,
-    "module": "ESNext",
-    "jsx": "react",
-    "allowJs": false,
-    "moduleResolution": "Node",
+    "allowJs": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -19,6 +19,16 @@
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "declarationMap": true,
-    "removeComments": true
-  }
+    "removeComments": true,
+  },
+  "paths": {
+    "@excalibur-jsfxr": [
+      "./src/"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.js"
+  ]
 }

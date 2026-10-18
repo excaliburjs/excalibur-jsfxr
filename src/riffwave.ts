@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
  * RIFFWAVE.js v0.03 - Audio encoder for HTML5 <audio> elements.
  * Copyleft 2011 by Pedro Ladaria <pedro.ladaria at Gmail dot com>
@@ -17,17 +18,17 @@
  *
  */
 
-let FastBase64 = {
-  chars: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-  encLookup: [],
+class FastBase64 {
+  static chars: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+  static encLookup: string[] = []
 
-  Init: function () {
+  static Init() {
     for (var i = 0; i < 4096; i++) {
       this.encLookup[i] = this.chars[i >> 6] + this.chars[i & 0x3f];
     }
-  },
+  };
 
-  Encode: function (src) {
+  static Encode(src: number[]) {
     var len = src.length;
     var dst = "";
     var i = 0;
@@ -52,7 +53,7 @@ let FastBase64 = {
       dst += "=";
     }
     return dst;
-  }, // end Encode
+  }; // end Encode
 };
 
 FastBase64.Init();
