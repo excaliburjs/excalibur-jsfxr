@@ -1,6 +1,6 @@
 {
   "name": "@excaliburjs/plugin-jsfxr",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0",
   "description": "excalibur-jsfxr provides sound effect generation utilizing a wrapper around jsfxr",
   "repository": {
     "type": "git",
@@ -53,12 +53,12 @@
     "@playwright/test": "1.63.0",
     "@types/node": "^24.10.1",
     "copyfiles": "2.4.1",
-    "excalibur": "0.33.0-alpha.247",
+    "excalibur": "1.0.0",
     "typescript": "7.0.2",
-    "vite": "8.1.4"
+    "vite": "8.1.6"
   },
   "peerDependencies": {
-    "excalibur": ">=0.33.0-alpha.247"
+    "excalibur": "^1.0.0"
   },
   "devEngines": {
     "runtime": {
